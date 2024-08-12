@@ -1,0 +1,8 @@
+package components
+
+import "net/http"
+import "github.com/gorilla/csrf"
+
+templ CSRFfield(r *http.Request) {
+	@templ.Raw(csrf.TemplateField(r))
+}

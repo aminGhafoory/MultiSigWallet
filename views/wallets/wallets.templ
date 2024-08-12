@@ -1,0 +1,41 @@
+package wallets
+
+import (
+	"github.com/aminghafoory/multisig2/views/layouts"
+	"github.com/aminghafoory/multisig2/views/components"
+	"net/http"
+	"github.com/aminghafoory/multisig2/internal/database"
+	"fmt"
+)
+
+templ UserWallets(title string, r *http.Request, wallets []database.GetUserWalletsRow) {
+	@layouts.Base(title, components.Navbar(r)) {
+		if len(wallets) >0 {
+			<table class="uk-table uk-table-divider uk-table-hover px-2 py-2 m-12">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Address</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					for _, item := range wallets {
+						<tr>
+							<td>{ item.WalletName }</td>
+							<td>{ item.WalletAddress }</td>
+							<td><a class="uk-button uk-button-default" href={ templ.URL(fmt.Sprintf("/wallets/%s/delete", item.WalletID)) }>Delete</a> 
+							<a class="uk-button uk-button-default" href={ templ.URL(fmt.Sprintf("/wallets/%s/prikey", item.WalletID)) }>Show private key</a></td>
+						</tr>
+					}
+					
+				</tbody>
+			</table>
+			
+		}
+		<a class="uk-button uk-button-default ml-12" href={ templ.URL("/users/wallets/import") }>import wallet</a>	
+		<a class="uk-button uk-button-default " href={ templ.URL("/users/wallets/new") }>New wallet</a>
+		
+	
+	}
+}

@@ -1,0 +1,13 @@
+package home
+
+import (
+	"github.com/aminghafoory/multisig2/views/layouts"
+	"github.com/aminghafoory/multisig2/views/components"
+	"net/http"
+)
+
+templ Index(title string, r *http.Request, IsSignedIn bool) {
+	@layouts.Base(title, components.Navbar(r)) {
+		@components.Accardion()
+	}
+}

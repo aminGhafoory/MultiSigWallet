@@ -1,0 +1,36 @@
+package contracts
+
+import (
+	"github.com/aminghafoory/multisig2/views/layouts"
+	"github.com/aminghafoory/multisig2/views/components"
+	"net/http"
+	"github.com/aminghafoory/multisig2/internal/database"
+	"fmt"
+)
+
+templ UserContracts(title string, r *http.Request, contracts []database.GetUserContractsRow) {
+	@layouts.Base(title, components.Navbar(r)) {
+		if len(contracts) >0 {
+			<table class="uk-table uk-table-divider uk-table-hover px-2 py-2 m-12">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Address</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					for _, item := range contracts {
+						<tr>
+							<td>{ item.ContractName }</td>
+							<td>{ item.ContractID }</td>
+							<td><a class="uk-button uk-button-default" href={ templ.URL(fmt.Sprintf("/contracts/%s/delete", item.ContractID)) }>Delete</a> <a class="uk-button uk-button-default" href={ templ.URL(fmt.Sprintf("/contracts/%s", item.ContractID)) }>Edit</a></td>
+							// <td> </td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		}
+		<a class="uk-button uk-button-default m-12" href={ templ.URL("/contracts/new") }>new contract</a>
+	}
+}
